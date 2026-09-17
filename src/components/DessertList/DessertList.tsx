@@ -1,6 +1,7 @@
 import type { CartItem, Dessert } from '../../types'
 import DessertCard from '../DessertCard/DessertCard'
 import styles from './DessertList.module.css'
+import {useCartStore} from '../../data/CartStore'
 
 interface DessertListProps {
   desserts: Dessert[]
@@ -17,6 +18,8 @@ const DessertList = ({
   onIncrement,
   onDecrement,
 }: DessertListProps) => {
+  const {items,decrementItem,incrementItem,removeItem,clearCart} = useCartStore()
+
   const getQuantity = (name: string) =>
     cartItems.find((item) => item.name === name)?.quantity ?? 0
 

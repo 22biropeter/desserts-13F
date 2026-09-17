@@ -9,7 +9,7 @@ import { loadDesserts } from './data/loadDesserts'
 
 const App = () => {
   const [desserts, setDesserts] = useState<Dessert[]>([])
-  const [cartItems, setCartItems] = useState<CartItem[]>([])
+  /* const [cartItems, setCartItems] = useState<CartItem[]>([]) */
   const [isOrderConfirmed, setIsOrderConfirmed] = useState(false)
   const [loadError, setLoadError] = useState<string | null>(null)
 
@@ -35,7 +35,7 @@ const App = () => {
     }
   }, [])
 
-  const handleAdd = (dessert: Dessert) => {
+ /*  const handleAdd = (dessert: Dessert) => {
     setCartItems((current) => [...current, { ...dessert, quantity: 1 }])
   }
 
@@ -68,7 +68,7 @@ const App = () => {
   const handleStartNewOrder = () => {
     setCartItems([])
     setIsOrderConfirmed(false)
-  }
+  } */
 
   return (
     <div className={styles.page}>
@@ -80,26 +80,23 @@ const App = () => {
         ) : (
           <DessertList
             desserts={desserts}
-            cartItems={cartItems}
-            onAdd={handleAdd}
-            onIncrement={handleIncrement}
-            onDecrement={handleDecrement}
+            
           />
         )}
 
         <div className={styles.cartColumn}>
           <Cart
-            items={cartItems}
-            onRemove={handleRemove}
-            onConfirm={handleConfirmOrder}
+            /* items={cartItems} */
+            /* onRemove={handleRemove} */
+            /* onConfirm={handleConfirmOrder} */
           />
         </div>
       </main>
 
       {isOrderConfirmed && (
         <OrderConfirmationModal
-          items={cartItems}
-          onStartNewOrder={handleStartNewOrder}
+          /* items={cartItems}
+          onStartNewOrder={handleStartNewOrder} */
         />
       )}
     </div>
