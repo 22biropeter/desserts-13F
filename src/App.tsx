@@ -35,15 +35,6 @@ const App = () => {
     }
   }, [])
 
-  const [desserts, setDesserts] = useState<Dessert[]>([])
-
-  useEffect(() => {
-    fetch('data.json')
-    .then((response) => response.json())
-    .then((data) => setDesserts(data))
-    .catch((error) => console.error('Error fetching desserts:', error))
-  }, [])
-
   const handleAdd = (dessert: Dessert) => {
     setCartItems((current) => [...current, { ...dessert, quantity: 1 }])
   }
