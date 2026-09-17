@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { desserts } from './data/desserts'
+import { useEffect, useState } from 'react'
 import type { CartItem, Dessert } from './types'
 import Header from './components/Header/Header'
 import DessertList from './components/DessertList/DessertList'
@@ -10,6 +9,15 @@ import styles from './App.module.css'
 const App = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [isOrderConfirmed, setIsOrderConfirmed] = useState(false)
+
+  const [desserts, setDesserts] = useState<Dessert[]>([])
+
+  useEffect(() => {
+    fetch('data.json')
+    .then((response) => response.json())
+    .then((data) => setDesserts(data))
+    .catch((error) => console.error('Error fetching desserts:', error))
+  }, [])
 
   const handleAdd = (dessert: Dessert) => {
     setCartItems((current) => [...current, { ...dessert, quantity: 1 }])
