@@ -1,15 +1,39 @@
-import { useState } from 'react'
-import { desserts } from './data/desserts'
+import { useEffect, useState } from 'react'
 import type { CartItem, Dessert } from './types'
 import Header from './components/Header/Header'
 import DessertList from './components/DessertList/DessertList'
 import Cart from './components/Cart/Cart'
 import OrderConfirmationModal from './components/OrderConfirmationModal/OrderConfirmationModal'
 import styles from './App.module.css'
+import { loadDesserts } from './data/loadDesserts'
 
 const App = () => {
+  const [desserts, setDesserts] = useState<Dessert[]>([])
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [isOrderConfirmed, setIsOrderConfirmed] = useState(false)
+  const [loadError, setLoadError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let isMounted = true
+
+    loadDesserts()
+      .then((loadedDesserts) => {
+        if (isMounted) {
+          setDesserts(loadedDesserts)
+        }
+      })
+      .catch((error: unknown) => {
+        if (isMounted) {
+          setLoadError(
+            error instanceof Error ? error.message : 'Failed to load desserts',
+          )
+        }
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   const handleAdd = (dessert: Dessert) => {
     setCartItems((current) => [...current, { ...dessert, quantity: 1 }])
@@ -51,13 +75,17 @@ const App = () => {
       <Header />
 
       <main className={styles.layout}>
-        <DessertList
-          desserts={desserts}
-          cartItems={cartItems}
-          onAdd={handleAdd}
-          onIncrement={handleIncrement}
-          onDecrement={handleDecrement}
-        />
+        {loadError ? (
+          <p role="alert">{loadError}</p>
+        ) : (
+          <DessertList
+            desserts={desserts}
+            cartItems={cartItems}
+            onAdd={handleAdd}
+            onIncrement={handleIncrement}
+            onDecrement={handleDecrement}
+          />
+        )}
 
         <div className={styles.cartColumn}>
           <Cart
