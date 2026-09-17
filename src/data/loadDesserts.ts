@@ -4,22 +4,8 @@ type JsonDessert = Omit<Dessert, 'image'> & {
   image: DessertImage
 }
 
-const imageAssets = import.meta.glob('../assets/images/*.{jpg,jpeg,png}', {
-  eager: true,
-  import: 'default',
-  query: '?url',
-}) as Record<string, string>
-
-const getImageUrl = (path: string) => {
-  const fileName = path.split('/').pop()
-  const assetPath = Object.keys(imageAssets).find((key) => key.endsWith(`/${fileName}`))
-
-  if (!assetPath) {
-    throw new Error(`Image asset not found: ${path}`)
-  }
-
-  return imageAssets[assetPath]
-}
+const getImageUrl = (path: string) =>
+  path.startsWith('/') ? path : `/${path.replace(/^\.?\//, '')}`
 
 const isJsonDessert = (value: unknown): value is JsonDessert => {
   if (!value || typeof value !== 'object') {
