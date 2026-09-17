@@ -1,0 +1,42 @@
+.page {
+  max-width: var(--page-max-width);
+  margin-inline: auto;
+  padding: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .page {
+    padding: 2.5rem 2.5rem 3rem;
+  }
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .layout > :first-child {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.cartColumn {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .cartColumn {
+    width: 22.5rem;
+    flex-shrink: 0;
+    position: sticky;
+    top: 2.5rem;
+  }
+}
