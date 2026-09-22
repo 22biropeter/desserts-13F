@@ -5,23 +5,15 @@ import {useCartStore} from '../../data/CartStore'
 
 interface DessertListProps {
   desserts: Dessert[]
-  cartItems: CartItem[]
-  onAdd: (dessert: Dessert) => void
-  onIncrement: (name: string) => void
-  onDecrement: (name: string) => void
 }
 
-const DessertList = ({
-  desserts,
-  cartItems,
-  onAdd,
-  onIncrement,
-  onDecrement,
+const DessertList = ({desserts
 }: DessertListProps) => {
-  const {items,decrementItem,incrementItem,removeItem,clearCart} = useCartStore()
+
+  const {items,decrementItem,incrementItem,addItem} = useCartStore()
 
   const getQuantity = (name: string) =>
-    cartItems.find((item) => item.name === name)?.quantity ?? 0
+    items.find((item) => item.name === name)?.quantity ?? 0
 
   return (
     <ul className={styles.list}>
@@ -30,9 +22,9 @@ const DessertList = ({
           <DessertCard
             dessert={dessert}
             quantity={getQuantity(dessert.name)}
-            onAdd={() => onAdd(dessert)}
-            onIncrement={() => onIncrement(dessert.name)}
-            onDecrement={() => onDecrement(dessert.name)}
+            onAdd={() => addItem(dessert)}
+            onIncrement={() => incrementItem(dessert.name)}
+            onDecrement={() => decrementItem(dessert.name)}
           />
         </li>
       ))}

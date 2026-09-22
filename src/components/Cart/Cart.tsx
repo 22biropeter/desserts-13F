@@ -1,16 +1,17 @@
-import type { CartItem } from '../../types'
 import emptyCartIllustration from '../../assets/images/illustration-empty-cart.svg'
 import removeItemIcon from '../../assets/images/icon-remove-item.svg'
 import carbonNeutralIcon from '../../assets/images/icon-carbon-neutral.svg'
 import styles from './Cart.module.css'
+import { useCartStore } from '../../data/CartStore'
 
 interface CartProps {
-  items: CartItem[]
-  onRemove: (name: string) => void
   onConfirm: () => void
 }
 
-const Cart = ({ items, onRemove, onConfirm }: CartProps) => {
+const Cart = ({ onConfirm }: CartProps) => {
+
+  const {items,removeItem} = useCartStore()
+
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0)
   const orderTotal = items.reduce(
     (sum, item) => sum + item.quantity * item.price,
@@ -44,7 +45,7 @@ const Cart = ({ items, onRemove, onConfirm }: CartProps) => {
                 <button
                   type="button"
                   className={styles.removeButton}
-                  onClick={() => onRemove(item.name)}
+                  onClick={() => removeItem(item.name)}
                   aria-label={`Remove ${item.name} from cart`}
                 >
                   <img src={removeItemIcon} alt="" aria-hidden="true" />

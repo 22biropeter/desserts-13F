@@ -6,12 +6,12 @@ import Cart from './components/Cart/Cart'
 import OrderConfirmationModal from './components/OrderConfirmationModal/OrderConfirmationModal'
 import styles from './App.module.css'
 import { loadDesserts } from './data/loadDesserts'
+import { useCartStore } from './data/CartStore'
 
 const App = () => {
   const [desserts, setDesserts] = useState<Dessert[]>([])
-  /* const [cartItems, setCartItems] = useState<CartItem[]>([]) */
-  const [isOrderConfirmed, setIsOrderConfirmed] = useState(false)
   const [loadError, setLoadError] = useState<string | null>(null)
+  const {handelOrderConfirm,handelStartNewOrder,isOrderConfirmed} = useCartStore()
 
   useEffect(() => {
     let isMounted = true
@@ -35,41 +35,6 @@ const App = () => {
     }
   }, [])
 
- /*  const handleAdd = (dessert: Dessert) => {
-    setCartItems((current) => [...current, { ...dessert, quantity: 1 }])
-  }
-
-  const handleIncrement = (name: string) => {
-    setCartItems((current) =>
-      current.map((item) =>
-        item.name === name ? { ...item, quantity: item.quantity + 1 } : item,
-      ),
-    )
-  }
-
-  const handleDecrement = (name: string) => {
-    setCartItems((current) =>
-      current
-        .map((item) =>
-          item.name === name ? { ...item, quantity: item.quantity - 1 } : item,
-        )
-        .filter((item) => item.quantity > 0),
-    )
-  }
-
-  const handleRemove = (name: string) => {
-    setCartItems((current) => current.filter((item) => item.name !== name))
-  }
-
-  const handleConfirmOrder = () => {
-    setIsOrderConfirmed(true)
-  }
-
-  const handleStartNewOrder = () => {
-    setCartItems([])
-    setIsOrderConfirmed(false)
-  } */
-
   return (
     <div className={styles.page}>
       <Header />
@@ -86,19 +51,16 @@ const App = () => {
 
         <div className={styles.cartColumn}>
           <Cart
-            /* items={cartItems} */
-            /* onRemove={handleRemove} */
-            /* onConfirm={handleConfirmOrder} */
+            onConfirm={()=>handelOrderConfirm()}
           />
         </div>
       </main>
 
-      {isOrderConfirmed && (
+      {isOrderConfirmed == true ?
         <OrderConfirmationModal
-          /* items={cartItems}
-          onStartNewOrder={handleStartNewOrder} */
-        />
-      )}
+          onStartNewOrder={handelStartNewOrder}
+        /> :<></>
+      }
     </div>
   )
 }

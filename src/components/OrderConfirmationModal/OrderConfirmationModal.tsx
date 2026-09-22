@@ -1,16 +1,18 @@
-import type { CartItem } from '../../types'
+
 import orderConfirmedIcon from '../../assets/images/icon-order-confirmed.svg'
 import styles from './OrderConfirmationModal.module.css'
+import { useCartStore } from '../../data/CartStore'
 
 interface OrderConfirmationModalProps {
-  items: CartItem[]
   onStartNewOrder: () => void
 }
 
 const OrderConfirmationModal = ({
-  items,
-  onStartNewOrder,
+  onStartNewOrder
 }: OrderConfirmationModalProps) => {
+
+  const {items} = useCartStore() 
+
   const orderTotal = items.reduce(
     (sum, item) => sum + item.quantity * item.price,
     0,

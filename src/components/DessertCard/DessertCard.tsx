@@ -3,23 +3,19 @@ import addToCartIcon from '../../assets/images/icon-add-to-cart.svg'
 import decrementIcon from '../../assets/images/icon-decrement-quantity.svg'
 import incrementIcon from '../../assets/images/icon-increment-quantity.svg'
 import styles from './DessertCard.module.css'
+import { useCartStore } from '../../data/CartStore'
 
 interface DessertCardProps {
-  dessert: Dessert
+  dessert: Dessert,
   quantity: number
-  onAdd: () => void
-  onIncrement: () => void
-  onDecrement: () => void
 }
 
 const DessertCard = ({
-  dessert,
-  quantity,
-  onAdd,
-  onIncrement,
-  onDecrement,
+  dessert,quantity
 }: DessertCardProps) => {
+
   const isInCart = quantity > 0
+  const {decrementItem,incrementItem,addItem} = useCartStore()
 
   return (
     <article className={styles.card}>
@@ -39,7 +35,7 @@ const DessertCard = ({
             <button
               type="button"
               className={styles.quantityButton}
-              onClick={onDecrement}
+              onClick={()=>decrementItem(dessert.name)}
               aria-label={`Decrease quantity of ${dessert.name}`}
             >
               <img src={decrementIcon} alt="" aria-hidden="true" />
@@ -48,14 +44,14 @@ const DessertCard = ({
             <button
               type="button"
               className={styles.quantityButton}
-              onClick={onIncrement}
+              onClick={()=>incrementItem(dessert.name)}
               aria-label={`Increase quantity of ${dessert.name}`}
             >
               <img src={incrementIcon} alt="" aria-hidden="true" />
             </button>
           </div>
         ) : (
-          <button type="button" className={styles.addButton} onClick={onAdd}>
+          <button type="button" className={styles.addButton} onClick={()=>addItem(dessert)}>
             <img src={addToCartIcon} alt="" aria-hidden="true" />
             Add to Cart
           </button>
